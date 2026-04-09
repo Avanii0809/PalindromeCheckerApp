@@ -1,42 +1,85 @@
-import java.util.Scanner;
-public class PalindromeCheckerApp {
+package org.example;
+
+import java.util.*;
+
+class Node {
+    char data;
+    Node next;
+
+    Node(char data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class SinglyLinkedList {
+    Node head;
+
+    public void add(char c) {
+        Node newNode = new Node(c);
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+        Node current = head;
+        while (current.next != null) {
+            current = current.next;
+        }
+        current.next = newNode;
+    }
+
+    public Node reverse(Node start) {
+        Node prev = null;
+        Node current = start;
+        Node next = null;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        return prev;
+    }
+
+    public boolean isPalindrome() {
+        if (head == null || head.next == null) {
+            return true;
+        }
+        Node slow = head;
+        Node fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        Node secondHalfStart = reverse(slow.next);
+        Node firstHalfStart = head;
+        Node secondHalfCopy = secondHalfStart;
+        boolean palindrome = true;
+        while (secondHalfStart != null) {
+            if (firstHalfStart.data != secondHalfStart.data) {
+                palindrome = false;
+                break;
+            }
+            firstHalfStart = firstHalfStart.next;
+            secondHalfStart = secondHalfStart.next;
+        }
+        slow.next = reverse(secondHalfCopy); // Restore original list
+        return palindrome;
+    }
+}
+
+
+public class PallindromeCheckerApp {
     public static void main(String[] args){
-        System.out.println("Welcome to the Palindrome Checker Management System");
-        System.out.println("Version : 1.0");
-        System.out.println("System initialized successfully");
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Input text: ");
-        String input = sc.nextLine();
-        String reversed = "";
-        boolean isPalindrome = true;
-        for (int i = 0; i < input.length() / 2; i++) {
-            if (input.charAt(i) != input.charAt(input.length() - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
-        }
-        System.out.println("Is it a Palindrome? : " + isPalindrome);
 
-        for (int i = input.length() - 1; i >= 0; i--) {
-            reversed = reversed + input.charAt(i);
-        }
-        boolean isPalindrome1 = input.equals(reversed);
-        System.out.println("Is it a Palindrome? : " + isPalindrome1);
+        String input = "level";
 
-        String input1 = "radar";
-        char[] chars = input.toCharArray();
-        int start = 0;
-        int end = chars.length - 1;
-        boolean isPalindrome2 = true;
-        while (start < end) {
-            if (chars[start] != chars[end]) {
-                isPalindrome2 = false;
-                break;
-            }
-            start++;
-            end--;
+        SinglyLinkedList list = new SinglyLinkedList();
+        for (char c : input.toCharArray()) {
+            list.add(c);
         }
-        System.out.println("Input : " + input1);
-        System.out.println("Is Palindrome? : " + isPalindrome2);
+
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + list.isPalindrome());
     }
 }
