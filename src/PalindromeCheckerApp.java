@@ -1,42 +1,37 @@
-import java.util.Scanner;
-public class PalindromeCheckerApp {
-    public static void main(String[] args){
-        System.out.println("Welcome to the Palindrome Checker Management System");
-        System.out.println("Version : 1.0");
-        System.out.println("System initialized successfully");
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Input text: ");
-        String input = sc.nextLine();
-        String reversed = "";
-        boolean isPalindrome = true;
-        for (int i = 0; i < input.length() / 2; i++) {
-            if (input.charAt(i) != input.charAt(input.length() - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
-        }
-        System.out.println("Is it a Palindrome? : " + isPalindrome);
+package org.example;
 
-        for (int i = input.length() - 1; i >= 0; i--) {
-            reversed = reversed + input.charAt(i);
-        }
-        boolean isPalindrome1 = input.equals(reversed);
-        System.out.println("Is it a Palindrome? : " + isPalindrome1);
+import java.util.*;
 
-        String input1 = "radar";
-        char[] chars = input.toCharArray();
+
+public class PallindromeCheckerApp {
+
+    // Method to check palindrome
+    public static boolean isPalindrome(String str) {
+
+        // Normalize string: remove spaces and convert to lowercase
+        str = str.replaceAll("\\s+", "").toLowerCase();
+
         int start = 0;
-        int end = chars.length - 1;
-        boolean isPalindrome2 = true;
+        int end = str.length() - 1;
+
         while (start < end) {
-            if (chars[start] != chars[end]) {
-                isPalindrome2 = false;
-                break;
+            if (str.charAt(start) != str.charAt(end)) {
+                return false;
             }
             start++;
             end--;
         }
-        System.out.println("Input : " + input1);
-        System.out.println("Is Palindrome? : " + isPalindrome2);
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+
+        String input = "A man a plan a canal Panama"; // Hardcoded input
+
+        boolean result = isPalindrome(input);
+
+        System.out.println("Input : " + input);
+        System.out.println("Is Palindrome? : " + result);
     }
 }
